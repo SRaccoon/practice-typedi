@@ -19,11 +19,10 @@ export class AuthService {
 			const token = sign({
 				id: userInfo.id,
 				username: userInfo.username
-			}, "tmp", { expiresIn: "2h", issuer: "sraccoon" });
+			}, "tmp", { expiresIn: "10s", issuer: "sraccoon" });
 			return { token: token };
 		} catch (e) {
-			console.log(e);
-			throw new BaseException(400, "토큰 발급 중 알 수 없는 에러 발생");
+			throw new BaseException(400, "토큰 발급 중 알 수 없는 에러 발생", e);
 		}
 	}
 
@@ -31,7 +30,7 @@ export class AuthService {
 		try {
 			await this.authRepo.save(signupDTO);
 		} catch (e) {
-			throw new BaseException(400, e.message);
+			throw new BaseException(400, e.message, e);
 		}
 	}
 }

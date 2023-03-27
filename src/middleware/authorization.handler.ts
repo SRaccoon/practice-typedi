@@ -10,6 +10,6 @@ export const AuthorizationHandler = async (action: Action) => {
     
 		return true;
 	} catch (e) {
-		throw new BaseException(400, "Bad Token");
+		throw new BaseException(400, "Bad Token", e);
 	}
 };

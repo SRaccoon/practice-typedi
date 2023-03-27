@@ -15,8 +15,10 @@ export class AuthController {
 	}
 
 	@Post("/signup")
-	public async signup(@Body() body: SingupDTO) {
-		return await this.authService.signup(body);
+	public async signup(@Body() body: SingupDTO){
+		await this.authService.signup(body);
+
+		return { message: "success" };
 	}
 
 	@Get("/test")

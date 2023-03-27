@@ -23,23 +23,23 @@ export class App {
 	}
 
 	public async initServer() {
-		await new Promise(async (resolve) => {
-			await this.createDatabaseConnection();
+		await new Promise((resolve) => {
+			this.createDatabaseConnection().then(() => {
+				useContainer(Container);
 
-			useContainer(Container);
+				useExpressServer(this.app, {
+					controllers: [
+						join(__dirname + "/api/**/*.controller.js")
+					],
+					middlewares: [GlobalErrorHandler],
+					authorizationChecker: AuthorizationHandler,
+					defaultErrorHandler: false
+				});
 
-			useExpressServer(this.app, {
-				controllers: [
-					join(__dirname + "/api/**/*.controller.js")
-				],
-				middlewares: [GlobalErrorHandler],
-				authorizationChecker: AuthorizationHandler,
-				defaultErrorHandler: false
-			});
-
-			this.server = this.app.listen(this.port, () => {
-				console.log("Service Start");
-				resolve(true);
+				this.server = this.app.listen(this.port, () => {
+					console.log("Service Start");
+					resolve(true);
+				});
 			});
 		});
 	}
@@ -51,20 +51,16 @@ export class App {
 	}
 
 	private async createDatabaseConnection() {
-		try {
-			const connectionOpts: SqliteConnectionOptions = {
-				type: "sqlite",
-				database: "simsamo.db",
-				entities: [
-					join(__dirname + "/api/**/*.entity.js")
-				],
-				synchronize: true
-			};
+		const connectionOpts: SqliteConnectionOptions = {
+			type: "sqlite",
+			database: "simsamo.db",
+			entities: [
+				join(__dirname + "/api/**/*.entity.js")
+			],
+			synchronize: true
+		};
 
-			useDBContainer(Container);
-			await createConnection(connectionOpts);
-		} catch (error) {
-			throw error;
-		}
+		useDBContainer(Container);
+		await createConnection(connectionOpts);
 	}
 }
