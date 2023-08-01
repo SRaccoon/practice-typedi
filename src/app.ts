@@ -29,7 +29,7 @@ export class App {
 
 				useExpressServer(this.app, {
 					controllers: [
-						join(__dirname + "/api/**/*.controller.js")
+						join(__dirname + "/api/**/*.controller.ts")
 					],
 					middlewares: [GlobalErrorHandler],
 					authorizationChecker: AuthorizationHandler,
