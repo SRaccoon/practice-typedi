@@ -56,7 +56,7 @@ export class App {
 			type: "sqlite",
 			database: "simsamo.db",
 			entities: [
-				join(__dirname + "/api/**/*.entity.js")
+				join(__dirname + `/api/**/*.entity.${IS_DEV ? "ts" : "js"}`)
 			],
 			synchronize: true
 		};
