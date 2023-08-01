@@ -9,6 +9,7 @@ import bodyParser from "body-parser";
 import { GlobalErrorHandler } from "middleware/global-error.handler";
 import { SqliteConnectionOptions } from "typeorm/driver/sqlite/SqliteConnectionOptions";
 import { AuthorizationHandler } from "middleware/authorization.handler";
+import { IS_DEV } from "config";
 
 
 export class App {
@@ -29,7 +30,7 @@ export class App {
 
 				useExpressServer(this.app, {
 					controllers: [
-						join(__dirname + "/api/**/*.controller.ts")
+						join(__dirname + `/api/**/*.controller.${IS_DEV ? "ts" : "js"}`)
 					],
 					middlewares: [GlobalErrorHandler],
 					authorizationChecker: AuthorizationHandler,

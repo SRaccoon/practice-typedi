@@ -22,6 +22,7 @@ export class AuthController {
 	}
 
 	@Get("/test")
+	@Authorized()
 	public test() {
 		return "good";
 	}
