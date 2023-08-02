@@ -1,9 +1,11 @@
-require("app-module-path").addPath(__dirname);
+import appModulePath from "app-module-path";
 import "reflect-metadata";
+
+appModulePath.addPath(__dirname);
 
 import { App } from "./app";
 
 (async () => {
-	let app = new App(3000);
+	const app = new App(3200);
 	await app.initServer();
 })();
